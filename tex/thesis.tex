@@ -1,0 +1,298 @@
+
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{libertine}                                % nicer serif font
+\usepackage{inconsolata}                              % nicer fixed width font
+
+\setlength{\parskip}{0.5em plus4mm minus3mm}          % optional: paragraph spacing
+\usepackage[parfill]{parskip}                         % optional: avoid indent first paragraph
+
+\usepackage{listings}                                 % code listings
+\usepackage{color}
+\definecolor{lgrey}{rgb}{0.96,0.96,0.96}
+\lstset{
+  backgroundcolor=\color{lgrey},
+  breaklines=true,
+  %basicstyle=\footnotesize\ttfamily,
+  basicstyle=\ttfamily,
+  %columns=fullflexible,
+  mathescape=false,
+  %basicstyle=\footnotesize,
+  rulecolor=\color{lgrey},
+  framesep=0.5em,
+  xleftmargin=1em,
+  xrightmargin=1em,
+  frame=single,
+  literate=                                           % replace -> with \rightarrow, https://tex.stackexchange.com/questions/145674/make-arrows-inside-lstlisting
+   {-->}{$\rightarrow{}$}{1}
+   {<--}{$\leftarrow{}$}{1}
+}
+\input{include.programming_languages}
+
+%\renewcommand*{\thefootnote}{\fnsymbol{footnote}}     % footnotes with *** instead of number
+%\renewcommand{\thefootnote}{\alph{footnote}}          % footnotes with alphabet characters
+\usepackage{longtable}                                 % long tables (over many pages)
+\usepackage{tablefootnote}
+
+\usepackage[super]{nth}   % 30th date 
+
+\let\oldtablefootnote\tablefootnote
+\renewcommand\tablefootnote[1]{%
+\oldtablefootnote{\hspace{2mm}#1}}
+\let\oldfootnote\footnote                             % better footnote spacing, https://tex.stackexchange.com/questions/54685/inserting-space-after-the-number-in-footnotes
+\renewcommand\footnote[1]{%
+\oldfootnote{\hspace{2mm}#1}}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm}          % Typical maths resource packages
+\usepackage{graphicx}                                 % Packages to allow inclusion of graphics
+\usepackage{pdfpages}
+%\usepackage[breaklinks,hidelinks]{hyperref}
+\usepackage{hyperref}                                 % For creating hyperlinks in cross references
+%\usepackage[super]{natbib}                            % literature reference style
+\usepackage[authoryear]{natbib}                            % literature reference style
+\usepackage[bf]{caption2}
+% For hypotheses 
+%\usepackage{enumitem}
+
+\usepackage[utf8]{inputenc}                           % utf8
+
+\usepackage{verbatim}                                 % escaped listings
+
+%\usepackage{csvsimple}                                % import csv tables
+
+\usepackage{pdflscape}    % large tables
+% \makesavenoteenv{tabular} % allows footnotes in tables
+
+
+% -------------------------------
+% --- some layout definitions ---
+% -------------------------------
+
+%\renewcommand{\baselinestretch}{1.1}
+
+% define topline
+\usepackage[automark]{scrpage2}
+\pagestyle{scrheadings}
+\automark{section}
+\clearscrheadings
+\ohead{\headmark}
+
+% define citation style
+\usepackage{natbib}
+\bibliographystyle{ecta}
+%\bibliographystyle{agsm}
+%\bibliographystyle{apalike}
+
+% define page size, margin size
+\setlength{\headheight}{1.1\baselineskip}
+\voffset=-2cm
+\hoffset=-3cm
+\textheight24cm
+\textwidth15.5cm
+\topmargin1cm
+\oddsidemargin3cm
+\evensidemargin3cm
+
+% define line line spacing = 1.5
+\renewcommand{\baselinestretch}{1.4}               % line height
+
+% optional: define second level for `itemizing'
+\renewcommand{\labelitemii}{-}
+
+% optional: line height of itemize --> more compact
+\usepackage{paralist}
+\renewenvironment{itemize}[1]{\begin{compactitem}#1}{\end{compactitem}}
+\renewenvironment{enumerate}[1]{\begin{compactenum}#1}{\end{compactenum}}
+\renewenvironment{description}[0]{\begin{compactdesc}}{\end{compactdesc}}
+% eof
+
+\usepackage{graphicx}
+\usepackage{dcolumn}  					% necessary for stargazer (https://tex.stackexchange.com/questions/48724/latex-error-illegal-character-in-array-arg-using-apsrtable-in-r)
+%\usepackage{framed}
+
+
+% --------------------------------------
+% --------------------------------------
+% --------------------------------------
+% --- the structure the tex document ---
+% ---  (this our recommendation) -------
+% frontmatter:
+%   - titlepage (mandatory),
+%   - acknowledgement,
+%   - abstract,
+%   - table of contents (mandatory),
+%   - list of abbreviations (not mandatory),
+%   - list of figures (not mandatory),
+%   - list of tables  (not mandatory) .
+%
+% body of the thesis (the structure of the thesis body is not mandatory, but the list of literature is mandatory):
+%   - introduction,
+%   - methods,
+%   - data,
+%   - results,
+%   - conclusion,
+%   - literature (mandatory),
+%   - appendix (figures, tables).
+%
+% last page:
+%   - declaration of authorship (mandatory).
+% --------------------------------------
+% --------------------------------------
+% --------------------------------------
+
+\begin{document}
+
+% -------------------------------
+% --- frontmatter: Title page ---
+% -------------------------------
+
+\thispagestyle{empty}
+\input{titlepage}
+
+
+
+% ------------------------------------
+% --- frontmatter: Acknowledgement ---
+% ------------------------------------
+\newpage
+\pagestyle{plain}
+\pagenumbering{roman}   % define page number in roman style
+\setcounter{page}{1}    % start page numbering
+\input{acknowledgement}
+
+
+
+% -----------------------------
+% --- frontmatter: Abstract ---
+% -----------------------------
+%%\newpage
+%%\input{abstract}
+
+
+
+% -----------------------------
+% --- frontmatter: Contents ---
+% -----------------------------
+\newpage
+\tableofcontents
+\clearpage
+
+
+% ----------------------------------------------------
+% --- frontmatter: List of Figures (not mandatory) ---
+% ----------------------------------------------------
+%%\newpage
+%%\addcontentsline{toc}{section}{List of Abbreviations}
+%%\ohead[]{LIST OF ABBREVIATIONS}
+%%\input{abbreviations}
+
+
+
+% ----------------------------------------------------
+% --- frontmatter: List of Figures (not mandatory) ---
+% ----------------------------------------------------
+%%\newpage
+%%\addcontentsline{toc}{section}{List of Figures}
+%%\ohead[]{\rightmark}
+%%\listoffigures
+
+
+
+% ---------------------------------------------------
+% --- frontmatter: List of Tables (not mandatory) ---
+% ---------------------------------------------------%%
+%%\newpage
+%%\addcontentsline{toc}{section}{List of Tables}
+%%\listoftables
+
+
+
+% -------------------------------
+% --- main body of the thesis ---
+% -------------------------------
+\newpage
+\pagestyle{plain}
+\setcounter{page}{1}    % start page numbering anew
+\pagenumbering{arabic}  % page numbers in arabic style
+
+
+\input{introduction}
+\newpage
+
+\input{theory}
+\newpage
+%%\input{methods}
+%%\newpage
+%%\%input{data}
+%%\newpage
+%%\input{results},
+%%\input{conc}
+
+\clearpage
+\newpage
+%\addcontentsline{toc}{section}{Data}
+\input{data}
+
+\newpage
+%\addcontentsline{toc}{section}{Hypotheses}
+\input{analysis}
+
+\newpage
+%\addcontentsline{toc}{section}{Results}
+\input{results}
+
+
+
+% ----------------
+% --- appendix ---
+% ----------------
+\appendix
+
+\newpage
+\pagestyle{plain}
+%\addcontentsline{toc}{section}{Listings}
+\input{listings}
+
+
+% tables (not mandatory)
+\newpage
+\pagestyle{plain}
+%\addcontentsline{toc}{section}{Tables}
+%\setcounter{table}{0}
+%\renewcommand{\thetable}{A\arabic{table}}
+\normalsize
+\input{tables}
+\clearpage
+\newpage
+\normalsize
+\input{graphics}
+
+\clearpage
+\newpage
+\input{used_open_source_software}
+
+\newpage
+\normalsize
+% literature
+\addcontentsline{toc}{section}{References}
+\bibliography{literature,theory,r}
+% \bibliography{theory}
+
+
+% figures (not mandatory)
+%%\newpage
+%%\input{app_figures}
+
+
+
+% --------------------------------------------
+% --- last page: Declaration of Authorship ---
+% --------------------------------------------
+
+%\newpage
+%\thispagestyle{empty}
+%\normalsize
+%\input{authorship}
+
+
+\end{document}

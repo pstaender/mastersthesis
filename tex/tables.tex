@@ -1,0 +1,287 @@
+\section{Tables}
+
+\subsection{Introduction and Theory}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rllll}
+  \hline
+ & Linux & FreeBSD & Unknown & MS.Windows \\
+  \hline
+W3Techs (02-2015) & 35.9\% & 0.95\% & 30.9\% & 32.3\% \\
+  W3cook (05-2015) & 96.6\% & 1.7\% & 0\% & 1.7\% \\
+   \hline
+\end{tabular}
+\caption{Share of Operating Systems on public Internet Servers; \textit{Sources: \url{http://w3techs.com/technologies/overview/operating_system/all}, \url{http://w3techs.com/technologies/details/os-unix/all/all}, \url{http://www.w3cook.com/os/summary/}}}
+\label{tbl:publicserver2015}
+\end{table}
+
+\begin{table}[!h]
+\centering
+\input{../tables/summary_of_microsoft}
+\caption{Statistic of Projects by Microsoft}
+\label{tbl:summary_microsoft}
+\end{table}
+
+\begin{table}[!h]
+\centering
+\input{../tables/summary_of_github}
+\caption{Statistic of Projects by GitHub}
+\label{tbl:summary_github}
+\end{table}
+
+\begin{table}[!h]
+\centering
+\input{../tables/summary_of_facebook}
+\caption{Statistic of Projects by facebook}
+\label{tbl:summary_facebook}
+\end{table}
+
+\clearpage
+\subsection{Data and Basic Statistics Tables}
+
+	\input{../tables/all_organizations_2016-02-09_23-23-54.tex}
+
+	\begin{landscape}
+		\footnotesize{
+			\input{../tables/popular_companies_github_projects_2015-10-11_16-10-54.tex}
+		}
+	\end{landscape}
+
+	{\footnotesize
+		\input{../tables/commercial_organizations_2016-02-10_09-27-08.tex}
+	}
+
+	\begin{landscape}
+	\begin{table}[!h] \centering
+		{\footnotesize
+		\input{../tables/glassdoor_firm_rating_2016-02-10_19-50-07.tex}
+		}
+		\caption{Firm ratings by employees (\textit{Source: Glassdoor API, 25.01.2016})}
+		\label{tbl:glassdoor_firm_ratings}
+	\end{table}
+	\end{landscape}
+
+\clearpage
+\subsection{Regression Tables for H 1.1}
+\label{sec:regression_tables_h1.1}
+
+	\begin{table}[!h] \centering
+	  \scriptsize{
+		  \input{../hypotheses/h1_internal_external_commits_count.2.tex}
+	  }
+		\caption{Impact of internal commits on external commits (and v.v.) on "Residual Projects" (Model 1.1.5 - 1.1.6) and "Top Projects" older than 1 year (Model 1.1.7 - 1.1.8)}
+		\label{tbl:regression_table_1.1.5-1.1.7}
+	\end{table}
+
+	\begin{table}[!h] \centering
+	  \scriptsize{
+		  \input{../hypotheses/h1_internal_external_commits_count.3.tex}
+	  }
+		\caption{Impact of internal commits on external commits (and v.v.) on "Residual Projects" older than 1 year (Model 1.1.9 - 1.1.10) and "Top Projects" younger than 1 year (Model 1.1.11 - 1.1.12)}
+		\label{tbl:regression_table_1.1.9-1.1.12}
+	\end{table}
+
+	\begin{table}[!h] \centering
+	  \scriptsize{
+		  \input{../hypotheses/h1_internal_external_commits_count.4.tex}
+	  }
+		\caption{Impact of internal commits on external commits (and v.v.) on "Residual Projects" younger than 1 year (Model 1.1.13 - 1.1.14)}
+		\label{tbl:regression_table_1.1.13-1.1.14}
+	\end{table}
+
+
+\clearpage
+\subsection{Regression Tables for H 1.2.1}
+\label{sec:regression_tables_h1.2.1}
+
+	\begin{table}[!h] \centering
+	  \scriptsize{
+		  \input{../hypotheses/h1_internal_external_issues.2.tex}
+	  }
+		\caption{Impact of issue participation by firm employed developers on external users (and v.v.) in "Residual Projects" (Model 1.2.5 - 1.2.6) and "Top Projects" older than 1 year (Model 1.2.7 - 1.2.8)}
+	  \label{tbl:regression_table_1.2.5-1.2.8}
+	\end{table}
+
+	\begin{table}[!h] \centering
+	  \scriptsize{
+		  \input{../hypotheses/h1_internal_external_issues.3.tex}
+	  }
+		\caption{Impact of issue participation by firm employed developers on external users (and v.v.) in "Residual Projects" older than 1 year (Model 1.2.9 - 1.2.10) and "Top Projects" younger than 1 year (Model 1.2.11 - 1.2.12)}
+	  \label{tbl:regression_table_1.2.9-1.2.10}
+	\end{table}
+
+	\begin{table}[!h] \centering
+	  % \scriptsize{
+		  \input{../hypotheses/h1_internal_external_issues.4.tex}
+	  % }
+		\caption{Impact of issue participation of firm employed users on external users (and v.v.) in "Residual Projects" younger than 1 year (Model 1.2.13 - 1.2.14)}
+	  \label{tbl:regression_table_1.2.13-1.2.14}
+	\end{table}
+
+
+\clearpage
+\subsection{Regression Tables for H 1.2.2}
+\label{sec:regression_tables_h1.2.2}
+
+\begin{landscape}
+	\begin{table}[!h] \centering
+	  \footnotesize{
+		  \input{../hypotheses/h1_issues_comments_top.tex}
+	  }
+		\caption{Impact of participation by content share in issues' comments (Model 1.3.5 - 1.3.6) and numbers of comment by firm employed users on external users (and v.v.) (Model 1.3.7 - 1.3.8) in "Top Projects"}
+		\label{tbl:regression_table_1.3.5-1.3.8}
+	\end{table}
+
+
+	\begin{table}[!h] \centering
+	  \footnotesize{
+		  \input{../hypotheses/h1_issues_comments_residual.tex}
+	  }
+		\caption{Impact of participation by content share in issues' comments (Model 1.3.9 - 1.3.10) and numbers of comment by firm employed users on external users (and v.v.) (Model 1.3.11 - 1.3.12) in "Residual Projects"}
+		\label{tbl:regression_table_1.3.9-1.3.12}
+	\end{table}
+
+\end{landscape}
+
+
+\clearpage
+\subsection{Regression Tables and Data Summary for H 2.1}
+\label{sec:regression_tables_h2.1}
+
+	\begin{table}[!h] \centering
+		\footnotesize
+		\input{../hypotheses/h2/h2_glm_top_project_forks.tex}
+		\caption{The more forks a project gains in the beginning (i.e. first 3 - 6 months) the more likely it is a top project in the long-run (Model 2.1.11 - 2.1.16)}
+		\label{tbl:regression_table_2.1.11-2.1.16}
+	\end{table}
+
+	\begin{table}[!h] \centering
+		\footnotesize
+		\input{../hypotheses/h2/h2_glm_top_project_forks_time_periods.tex}
+		\caption{If a projects gets forked in the beginning more often, the more likely it is a "Top Project" (Model 2.1.17 - 2.1.20)}
+	  \label{tbl:regression_table_2.1.17-2.1.20}
+	\end{table}
+
+	\begin{table}[!h] \centering
+		\input{../hypotheses/h2/h2_glm_forks_ratio_delayed.tex}
+		\caption{As the delay shows, number of "Forks" are rising relatively over time (see table \ref{tbl:time_observations_summary} for details). This maybe caused by network effects (the attention of a project in the beginning affects the later attention beneficial). Thus, further analyses would be necessary to proof the pure effect of "Ratio" on "Forks" over time. (Model 2.1.21 - 2.1.31).}
+		\label{tbl:regression_table_2.1.21-2.1.31}
+	\end{table}
+
+	\begin{landscape}
+	\begin{table}[!h] \centering
+		\scriptsize{
+			\input{../hypotheses/h2/h2_glm_subscribers_ratio_delayed.tex}
+		}
+		\caption{Influence of "Ratio" on number of "Subscribers" (Model 2.1.32 - 2.1.42). See table \ref{tbl:regression_table_2.1.21-2.1.31} for possible explanation of effects ("Subscribers" behaves similar to "Forks")}
+		\label{tbl:regression_table_2.1.32-2.1.42}
+
+	\end{table}
+	\end{landscape}
+
+	\begin{table}[!h] \centering
+		\input{../hypotheses/h2/h2_glm_forks_today_ratio.tex}
+		\caption{The higher the code contribution share of firm employed developers in the beginning, the higher is the final number of forks (except between month 6 - 12) (Model 2.1.43 - 2.1.46)}
+		\label{tbl:regression_table_2.1.43-2.1.46}
+	\end{table}
+
+	\begin{table}[!h] \centering
+		\input{../hypotheses/h2/h2_glm_subscribers_today_ratio.tex}
+		\caption{The higher the code contribution share of firm employed developers in the beginning, the higher is the final number of forks (except between month 3 - 6) (Model 2.1.47 - 2.1.50)}
+		\label{tbl:regression_table_2.1.47-2.1.50}
+	\end{table}
+
+	\begin{table}[!h] \centering
+		% \footnotesize
+		\input{../hypotheses/h2/h2_glm_forks_today_ratio_period.tex}
+		\caption{Code contribution share of firm employed developers in the first year has the biggest positive impact on the final number of forks (Model 2.1.51 - 2.1.54)}
+		\label{tbl:regression_table_2.1.51-2.1.54}
+	\end{table}
+
+	\begin{table}[!h] \centering
+		\input{../hypotheses/h2/h2_glm_subscribers_today_ratio_period.tex}
+		\caption{Code contribution share of firm employed developers in the first year has the biggest positive impact on the final number of subscribers (Model 2.1.55 - 2.1.58)}
+		\label{tbl:regression_table_2.1.55-2.1.58}
+	\end{table}
+
+	\begin{table}[!h] \centering
+		\footnotesize
+		\input{../hypotheses/h2/h2_glm_top_project_ratio_period.tex}
+		\caption{The higher the code contribution share of firm employed developers in the beginning the more likely it is a "Top Project" in the long-run (Model 2.1.59 - 2.1.62)}
+		\label{tbl:regression_table_2.1.59-2.1.62}
+	\end{table}
+
+	\begin{table}[!h] \centering
+		{\footnotesize
+			\input{../hypotheses/h2/h2_data_summary.tex}
+		}
+		\caption{Trend of social metrics and contribution ratio over time. All observed projects are at least 4 years old. Normalized values (between 0 - 1) for "Forks", "Subscribers" and "Ratio" are increasing over time in most cases.}
+		\label{tbl:time_observations_summary}
+	\end{table}
+
+
+
+\clearpage
+
+
+	\begin{landscape}
+		\subsection{Regression Tables for H 3}
+		\label{sec:regression_tables_h3}
+		\tiny
+		\centering
+		\begin{longtable}{@{\extracolsep{5pt}}lcccccccccccc}
+
+			\input{../hypotheses/h3/code_contribution_popularity_glm_dummy.tex}
+		  \caption{Detailed Regression Table: Impact of "Age" and "Ratio" on "Stars", "Subscribers" and "Forks" through \textit{Fitting Generalized Linear Models} with dummy variables for \textit{Firms} and \textit{Programming Languages}. Using (a) dummy variables for each \textit{Firm} in model 3.3, 3.7 and 3.11 (b) dummy variables for each \textit{Language} in model 3.2, 3.6, 3.10 (c) dummy variables for each \textit{Firm and Language} in model 3.4, 3.8 and 3.12}
+		  \label{tbl:statistics_glm_project_popularity}
+		\end{longtable}
+	\end{landscape}
+
+	\begin{landscape}
+		\scriptsize
+		\centering
+		\begin{longtable}{@{\extracolsep{5pt}}lcccccccccccc}
+
+			\input{../hypotheses/h3/code_contribution_others_glm_dummy.tex}
+
+			\caption{
+			Detailed Regression Table: Impact of "Age" and "Ratio" on "Issues", "Contributors", "Popularity" and "Top Project" through \textit{Fitting Generalized Linear Models}. Using (a) dummy variables for each \textit{Firm}  in model 3.15, 3.19 and 3.23 (b) dummy variables for each \textit{Language} in model 3.14, 3.18, 3.22 (c) dummy variables for each \textit{Firm and Language} in model 3.16, 3.20 and 3.24}
+
+		  \label{tbl:statistics_glm_project_size}
+		\end{longtable}
+
+	\end{landscape}
+
+	\begin{landscape}
+		\begin{table}
+			\centering
+			\footnotesize{
+			  \input{../tables/statistics_results/code_contribution_mixed_effects_organizations_and_languages.tex}
+			}
+			\caption{Impact of "Age" and "Ratio" on projects' social metrics ("Stars", "Subscribers", "Forks" and "Issues") and popularity (is "Top Project" yes / no) through \textit{Mixed Model} between \textit{Firms} and \textit{Programming Languages}. "Number of Contributors" is just a control attribute and not a describing model.}
+			\label{tbl:h3.1_mixed_models_size}
+		\end{table}
+	\end{landscape}
+
+
+
+	\begin{table}
+		\centering
+		\footnotesize{
+		  \input{../hypotheses/h3/influence_on_ratio_mixed_effect_orgs.tex}
+		}
+		\caption{Impact of projects' social metrics on "Ratio" using \textit{Mixed-Effects Models} between firms (Model 3.37 - 3.42)}
+		\label{tbl:lmer_ratio_as_dependent_1}
+	\end{table}
+
+	\begin{table}
+		\centering
+		\footnotesize{
+		  \input{../hypotheses/h3/influence_on_ratio_mixed_effect_orgs_langs.tex}
+		}
+		\caption{Impact of projects' social metrics on "Ratio" using \textit{Mixed-Effects Models} between firms and programming languages (Model 3.43 - 3.48)}
+		\label{tbl:lmer_ratio_as_dependent_2}
+	\end{table}
+
+\normalsize

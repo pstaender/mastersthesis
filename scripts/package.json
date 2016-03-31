@@ -1,0 +1,29 @@
+{
+  "name": "masterthesis-pstaender",
+  "author": "Philipp Staender",
+  "description": "different scripts to query, aggregate and evaluate data for my masterthesis",
+  "dependencies": {
+    "csv": "^0.4.6",
+    "csv-stringify": "0.0.8",
+    "fast-csv": "^0.6.0",
+    "github": "^0.2.4",
+    "glob": "^6.0.4",
+    "globs": "^0.1.2",
+    "google": "^1.4.0",
+    "js-yaml": "^3.4.3",
+    "kerberos": "0.0.18",
+    "minimist": "^1.2.0",
+    "moment": "^2.10.6",
+    "moment-timezone": "^0.4.1",
+    "mongodb": "^2.1.7",
+    "mongoskin": "^2.0.0",
+    "nodemailer": "^1.8.0",
+    "procstreams": "^0.3.0",
+    "progress": "^1.1.8",
+    "request": "^2.61.0",
+    "sequence": "^3.0.0",
+    "split": "^1.0.0",
+    "underscore": "^1.8.3",
+    "yargs": "^3.27.0"
+  }
+}
