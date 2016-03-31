@@ -29,8 +29,8 @@
 .Rhistory
 node_modules/
 tex/*.pdf
-#tex/*.xml
-#tex/*.bcf
+tex/*.xml
+tex/*.bcf
 /F
 .RData
 /data/
