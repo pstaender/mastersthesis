@@ -1,21 +1,16 @@
 #------------------------------------------------------------------#
 #
-# Linear regression with mixed models
-#
-# * run `03_code_contribution_ratios.R` first
+# H1: Linear regression Code Contribution
 #
 #------------------------------------------------------------------#
 # Author: Philipp Staender (philipp.staender@rwth-aachen.de)       #
 #------------------------------------------------------------------#
 
-# Loading and preparing R
-# reset environment
+## 1. Prepare / clear environment and load modules ####
 ls()
 rm(list=ls(all=TRUE))
 getwd()
-setwd("/Users/philipp/masterthesis/")
-
-# This includes some helper methods (e.g. latex export, pdf export ...)
+setwd("~/mastersthesis/")
 source('r/include.R')
 source('r/include_filtered_organizations.R')  # org will be available as global `organizations`
 source('r/include_subsetvalues.R')
@@ -72,6 +67,7 @@ formatType = "text"#"latex"
 contribs <- contributions
 contribs$`int. commits` <- contribs$internal_commits_count
 contribs$`ext. commits` <- contribs$external_commits_count
+
 #plot(rank(contribs$`int. commits`), rank(contribs$`ext. commits`))
 #contribs <- subset(contribs, contribs$language == 'JavaScript')
 #cor((contribs$`int. commits`), (contribs$`ext. commits`), method="spearman")
@@ -109,17 +105,22 @@ linear.12 <- lm(formula = `int. commits` ~ `ext. commits`, data = contribs[contr
 linear.13 <- lm(formula = `ext. commits` ~ `int. commits`, data = contribs[contribs$is_top_project == F & contribs$age < 365,])
 linear.14 <- lm(formula = `int. commits` ~ `ext. commits`, data = contribs[contribs$is_top_project == F & contribs$age < 365,])
 
-
-formatType = "latex"
-formatType = "text"
 content <- stargazer(linear.1, linear.2, linear.3, linear.4, type=formatType, float = F)
-write(content, file = 'hypotheses/h1_internal_external_commits_count_subset.1.tex')
+if (isTRUE(outputDataToFile)) {
+  write(content, file = 'hypotheses/h1_internal_external_commits_count_subset.1.tex')
+}
 content <- stargazer(linear.5, linear.6, linear.7, linear.8, type=formatType, float = F)
-write(content, file = 'hypotheses/h1_internal_external_commits_count_subset.2.tex')
+if (isTRUE(outputDataToFile)) {
+  write(content, file = 'hypotheses/h1_internal_external_commits_count_subset.2.tex')
+}
 content <- stargazer(linear.9, linear.10, linear.11, linear.12, type=formatType, float = F)
-write(content, file = 'hypotheses/h1_internal_external_commits_count_subset.3.tex')
+if (isTRUE(outputDataToFile)) {
+  write(content, file = 'hypotheses/h1_internal_external_commits_count_subset.3.tex')
+}
 content <- stargazer(linear.13, linear.14, type=formatType, float = F)
-write(content, file = 'hypotheses/h1_internal_external_commits_count_subset.4.tex')
+if (isTRUE(outputDataToFile)) {
+  write(content, file = 'hypotheses/h1_internal_external_commits_count_subset.4.tex')
+}
 
 slope.1 <- linear.1
 slope.2 <- linear.2
@@ -163,17 +164,22 @@ linear.12 <- lm(formula = issues_count_by_firm_employed_developer ~ issues_count
 linear.13 <- lm(formula = issues_count_by_external_developer ~ issues_count_by_firm_employed_developer, data = issues[issues$is_top_project.x == F & issues$age < 365,])
 linear.14 <- lm(formula = issues_count_by_firm_employed_developer ~ issues_count_by_external_developer, data = issues[issues$is_top_project.x == F & issues$age < 365,])
 
-formatType = "latex"
-# formatType = "text"
 content <- stargazer(linear.1, linear.2, linear.3, linear.4, type=formatType, float = F)
-write(content, file = 'hypotheses/h1_internal_external_issues.1.tex')
+if (isTRUE(outputDataToFile)) {
+  write(content, file = 'hypotheses/h1_internal_external_issues.1.tex')
+}
 content <- stargazer(linear.5, linear.6, linear.7, linear.8, type=formatType, float = F)
-write(content, file = 'hypotheses/h1_internal_external_issues.2.tex')
+if (isTRUE(outputDataToFile)) {
+  write(content, file = 'hypotheses/h1_internal_external_issues.2.tex')
+}
 content <- stargazer(linear.9, linear.10, linear.11, linear.12, type=formatType, float = F)
-write(content, file = 'hypotheses/h1_internal_external_issues.3.tex')
+if (isTRUE(outputDataToFile)) {
+  write(content, file = 'hypotheses/h1_internal_external_issues.3.tex')
+}
 content <- stargazer(linear.13, linear.14, type=formatType, float = F)
-write(content, file = 'hypotheses/h1_internal_external_issues.4.tex')
-
+if (isTRUE(outputDataToFile)) {
+  write(content, file = 'hypotheses/h1_internal_external_issues.4.tex')
+}
 stargazer(linear.1, linear.2, linear.3, linear.4, linear.5, linear.6, linear.7, linear.8, linear.9, linear.10, linear.11, linear.12, linear.13, linear.14, type="text")
 
 slope.1 <- linear.11
@@ -204,28 +210,32 @@ observedIssuesComments <- issuesComments
 # observedIssuesComments <- subset(observedIssuesComments, issuesComments$is_top_project == T)
 observedIssuesComments$comments_count_by_int <- observedIssuesComments$issues_count_by_firm_employed_developer
 
-formatType = "latex"
 
 linear.1 <- lm(formula = issues_issuescomments_count ~ content_share_by_firm_employed_developer, data = observedIssuesComments)
 linear.2 <- lm(formula = comments_count_by_ext ~ content_share_by_firm_employed_developer, data = observedIssuesComments)
 linear.3 <- lm(formula = comments_count_by_ext ~ comments_count_by_int, data = observedIssuesComments)
 linear.4 <- lm(formula = comments_count_by_int ~ comments_count_by_ext, data = observedIssuesComments)
 content = stargazer(linear.1, linear.2, linear.3, linear.4, type=formatType, float = F)
-write(content, file = 'hypotheses/h1_issues_comments_all.tex')
-
+if (isTRUE(outputDataToFile)) {
+  write(content, file = 'hypotheses/h1_issues_comments_all.tex')
+}
 linear.5 <- lm(formula = issues_issuescomments_count ~ content_share_by_firm_employed_developer, data = subset(observedIssuesComments, issuesComments$is_top_project == TRUE))
 linear.6 <- lm(formula = comments_count_by_ext ~ content_share_by_firm_employed_developer, data = subset(observedIssuesComments, issuesComments$is_top_project == TRUE))
 linear.7 <- lm(formula = comments_count_by_ext ~ comments_count_by_int, data = subset(observedIssuesComments, issuesComments$is_top_project == TRUE))
 linear.8 <- lm(formula = comments_count_by_int ~ comments_count_by_ext, data = subset(observedIssuesComments, issuesComments$is_top_project == TRUE))
 content = stargazer(linear.5, linear.6, linear.7, linear.8, type=formatType, float = F)
-write(content, file = 'hypotheses/h1_issues_comments_top.tex')
+if (isTRUE(outputDataToFile)) {
+  write(content, file = 'hypotheses/h1_issues_comments_top.tex')
+}
 
 linear.9 <- lm(formula = issues_issuescomments_count ~ content_share_by_firm_employed_developer, data = subset(observedIssuesComments, issuesComments$is_top_project == FALSE))
 linear.10 <- lm(formula = comments_count_by_ext ~ content_share_by_firm_employed_developer, data = subset(observedIssuesComments, issuesComments$is_top_project == FALSE))
 linear.11 <- lm(formula = comments_count_by_ext ~ comments_count_by_int, data = subset(observedIssuesComments, issuesComments$is_top_project == FALSE))
 linear.12 <- lm(formula = comments_count_by_int ~ comments_count_by_ext, data = subset(observedIssuesComments, issuesComments$is_top_project == FALSE))
 content = stargazer(linear.9, linear.10, linear.11, linear.12, type=formatType, float = F)
-write(content, file = 'hypotheses/h1_issues_comments_residual.tex')
+if (isTRUE(outputDataToFile)) {
+  write(content, file = 'hypotheses/h1_issues_comments_residual.tex')
+}
 
 slope.1 <- linear.3
 slope.2 <- linear.4

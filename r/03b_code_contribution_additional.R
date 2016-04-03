@@ -1,24 +1,6 @@
-#------------------------------------------------------------------#
-#
-# Classification in int + ext contributors
-#
-# This R scripts analyzes all commits of relevant organizations
-#
-#   * removes all commits from authors with invalid emails
-#   * classsifies internal and external developers
-#   * outputs to a single csv files
-#     --> data/csv/repositories_details.csv
-#
-#------------------------------------------------------------------#
-# Author: Philipp Staender (philipp.staender@rwth-aachen.de)       #
-#------------------------------------------------------------------#
+# temp script
 
-# Loading and preparing R
-# reset environment
-ls()
-rm(list=ls(all=TRUE))
-getwd()
-setwd("/Users/philipp/masterthesis/")
+stop('use 03_code_contribution_ratios instead')
 
 # This includes some helper methods (e.g. latex export, pdf export …)
 source('r/include.R')
@@ -144,8 +126,3 @@ ggplot(data=allCommits, aes(allCommits$hour_of_commit)) +
 h <- hist(allCommits[allCommits$is_firm_employed == T, ]$hour_of_commit, breaks=24, col="red", xlab="Hour of daytime (code contribution)", main="Histogram with Normal Curve") 
 h <- hist(allCommits[allCommits$is_firm_employed == T, ]$hour_of_commit_local, breaks=24, col="red", xlab="Hour of daytime (code contribution)", main="Histogram with Normal Curve") 
 
-# d <- density(allCommits$hour_of_commit)
-
-
-#write.csv(allCommits, "~/all_commits.csv", sep = ",", row.names = F)
-#write.csv(additionalCommitData, "~/additional_commit_data.csv", sep = ",", row.names = F)

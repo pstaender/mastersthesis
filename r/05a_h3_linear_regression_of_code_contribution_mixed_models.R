@@ -1,29 +1,29 @@
 #------------------------------------------------------------------#
 #
-# Linear regression with mixed models
-#
-# * run `03_code_contribution_ratios.R` first
+# H3: Linear regression with mixed models
 #
 #------------------------------------------------------------------#
 # Author: Philipp Staender (philipp.staender@rwth-aachen.de)       #
 #------------------------------------------------------------------#
 
-# Loading and preparing R
-# reset environment
+## 1. Prepare / clear environment and load modules ####
 ls()
 rm(list=ls(all=TRUE))
 getwd()
-setwd("/Users/philipp/masterthesis/")
-
-# This includes some helper methods (e.g. latex export, pdf export ...)
+setwd("~/mastersthesis/")
+# include basic user defined methods
 source('r/include.R')
+
 source('r/include_filtered_organizations.R')  # org will be available as global `organizations`
 source('r/include_subsetvalues.R')
 source('r/include_linear_regression_plots.R')
 
 resultFolderName <- 'statistics/code_contribution/'
 
+# Set to TRUE if you want generated regression tables
 outputDataToFile = F
+
+## 2.1 Load data from commits
 
 # load the generated CSV file with all popular repositories for all 10 programming languges:
 allContributions <- read.csv(paste0("data/csv/calculated/contributions_ratio.csv"), header = T)
@@ -31,38 +31,42 @@ allContributions$all_issues_count <- allContributions$closed_issues_count + allC
 allContributions$top_repo <- as.integer(allContributions$is_top_project)
 
 firms <- organizations
-
 contributions <- allContributions
-
 contributions <- subset(contributions, contributions$language %in% OBSERVED_LANGUAGES)
 
-# if (isTRUE(outputDataToFile)) {
-#   dir.create(paste0(resultFolderName, sessionID), showWarnings = TRUE, recursive = FALSE)
-# }
+if (isTRUE(outputDataToFile)) {
+  dir.create(paste0(resultFolderName, sessionID), showWarnings = TRUE, recursive = FALSE)
+}
+
+stargazer(contributions, type="text")
 
 content <- stargazer(contributions)
-filename = paste0(resultFolderName, sessionID, '/summary_contributions', '.tex')
-#write(content, filename)
+
+if (isTRUE(outputDataToFile)) {
+  filename = paste0(resultFolderName, sessionID, '/summary_contributions', '.tex')
+  write(content, filename)
+}
 
 fileSuffix <- ''
 
-# dummy variables for firms
+## 2.2 Dummy variables for firms
 for (firm in firms[,1]) {
   contributions[,firm] <- 0
   contributions[contributions$organization_name == toString(firm), firm] <- 1
 }
 
 
-# dummy variables for programming languages
+## 2.3 dummy variables for programming languages
 for (language in programmingLanguages) {
   contributions[,toString(language)] <- 0
   contributions[contributions$language == toString(language), toString(language)] <- 1
 }
 
+# for nicer regression table labels 
 contributions$firm_ <- contributions$organization_name
 contributions$lang_ <- contributions$language
 
-## Generalized Linear Model ####
+## 3.1 Generalized Linear Model (H3) ####
 # Leave organizations out
 
 linear.1 <- glm(formula = stargazers_count ~ ratio + age, data = contributions )
@@ -80,7 +84,6 @@ linear.12 <- glm(formula = forks_count ~ ratio + age + firm_ + lang_, data = con
 
 
 slope.1 <- linear.7
-# slope.2 <- mixedeffect.6
 
 plotData <- contributions
 # plotData <- subset(plotData, observedIssuesComments$comments_count_by_int < 2000)
@@ -89,7 +92,6 @@ plotData <- contributions
 ggplot(data = plotData, legend=TRUE, aes(ratio, subscribers_count)) +
   geom_point(pch = 19, alpha = 0.3) +
   guides(fill=guide_legend(title=NULL)) +
-  # theme_classic() +
   xlab("Ratio") +
   ylab("Subscribers") +
   geom_abline(intercept = slope.1$coefficients[1],
@@ -105,10 +107,18 @@ ggplot(data = plotData, legend=TRUE, aes(ratio, subscribers_count)) +
 #               slope = slope.2$coefficients[2],
 #               size=0.9, lty="dashed", color = "blue")
 
+if (isTRUE(outputDataToFile)) {
+  content <- stargazer(linear.1, linear.2, linear.3, linear.4, linear.5, linear.6, linear.7, linear.8, linear.9, linear.11, linear.12, type="latex", float = F)
+  write(content, file = 'tables/statistics_results/code_contribution_popularity_glm_dummy.tex')
+} else {
+  stargazer(linear.1, linear.2, linear.3, linear.4, linear.5, linear.6, linear.7, linear.8, linear.9, linear.11, linear.12, type="text", float = F)
+}
 
-content <- stargazer(linear.1, linear.2, linear.3, linear.4, linear.5, linear.6, linear.7, linear.8, linear.9, linear.11, linear.12, type="text", float = F)
-write(content, file = 'tables/statistics_results/code_contribution_popularity_glm_dummy.tex')
-
+# if (isTRUE(outputDataToFile)) {
+#   
+# } else {
+#   
+# }
 
 slope.1 <- linear.3
 slope.2 <- linear.4
@@ -143,10 +153,15 @@ linear.10 <- glm(formula = top_repo ~ ratio + age + lang_, family=binomial(link=
 linear.11 <- glm(formula = top_repo ~ ratio + age + firm_, family=binomial(link='logit'), data = contributions )
 linear.12 <- glm(formula = top_repo ~ ratio + age + firm_ + lang_, family=binomial(link='logit'), data = contributions )
 
-content <- stargazer(linear.1, linear.2, linear.3, linear.4, linear.5, linear.6, linear.7, linear.8, linear.9, linear.11, linear.12, type="latex", float = F)
-write(content, file = 'tables/statistics_results/code_contribution_others_glm_dummy.tex')
+if (isTRUE(outputDataToFile)) {
+  content <- stargazer(linear.1, linear.2, linear.3, linear.4, linear.5, linear.6, linear.7, linear.8, linear.9, linear.11, linear.12, type="latex", float = F)
+  write(content, file = 'tables/statistics_results/code_contribution_others_glm_dummy.tex')
+} else {
+  stargazer(linear.1, linear.2, linear.3, linear.4, linear.5, linear.6, linear.7, linear.8, linear.9, linear.11, linear.12, type="text", float = F)
+}
 
-## Mixed-effect modeling
+
+## 3.2 Generalized Linear Model (H3) / Mixed-effect modeling ####
 
 # group by organization
 mixedeffect.1 <- lmer(formula = stargazers_count ~ ratio + age + (1 | organization_name), data = contributions)
@@ -156,8 +171,12 @@ mixedeffect.4 <- lmer(formula = all_issues_count ~ ratio + age + (1 | organizati
 mixedeffect.5 <- lmer(formula = contributors_count ~ ratio + age + (1 | organization_name), data = contributions)
 mixedeffect.6 <- lmer(formula = top_repo ~ ratio + age + (1 | organization_name), family=binomial(link='logit'), data = contributions)
 
-content <- stargazer(mixedeffect.1, mixedeffect.2, mixedeffect.3, mixedeffect.4, mixedeffect.5, mixedeffect.6, type="text", float = F)
-write(content, file = 'tables/statistics_results/code_contribution_mixed_effects_organizations.tex')
+if (isTRUE(outputDataToFile)) {
+  content <- stargazer(mixedeffect.1, mixedeffect.2, mixedeffect.3, mixedeffect.4, mixedeffect.5, mixedeffect.6, type="latex", float = F)
+  write(content, file = 'tables/statistics_results/code_contribution_mixed_effects_organizations.tex')
+} else {
+  stargazer(mixedeffect.1, mixedeffect.2, mixedeffect.3, mixedeffect.4, mixedeffect.5, mixedeffect.6, type="text", float = F)
+}
 
 mixedeffect.1 <- lmer(formula = stargazers_count ~ ratio + age + (1 | organization_name) + (1 | language), data = contributions)
 mixedeffect.2 <- lmer(formula = subscribers_count ~ ratio + age + (1 | organization_name) + (1 | language), data = contributions)
@@ -166,8 +185,12 @@ mixedeffect.4 <- lmer(formula = all_issues_count ~ ratio + age + (1 | organizati
 mixedeffect.5 <- lmer(formula = contributors_count ~ ratio + age + (1 | organization_name) + (1 | language), data = contributions)
 mixedeffect.6 <- glmer(formula = top_repo ~ ratio + age + (1 | organization_name) + (1 | language), family=binomial(link='logit'), data = contributions)
 
-content <- stargazer(mixedeffect.1, mixedeffect.2, mixedeffect.3, mixedeffect.4, mixedeffect.5, mixedeffect.6, type="text", float = F)
-write(content, file = 'tables/statistics_results/code_contribution_mixed_effects_organizations_and_languages.tex')
+if (isTRUE(outputDataToFile)) {
+  content <- stargazer(mixedeffect.1, mixedeffect.2, mixedeffect.3, mixedeffect.4, mixedeffect.5, mixedeffect.6, type="latex", float = F)
+  write(content, file = 'tables/statistics_results/code_contribution_mixed_effects_organizations_and_languages.tex')
+} else {
+  stargazer(mixedeffect.1, mixedeffect.2, mixedeffect.3, mixedeffect.4, mixedeffect.5, mixedeffect.6, type="text", float = F)
+}
 
 mixedeffect.1 <- lmer(formula = ratio ~ stargazers_count + (1 | organization_name), data = contributions)
 mixedeffect.2 <- lmer(formula = ratio ~ subscribers_count + (1 | organization_name), data = contributions)
@@ -176,9 +199,12 @@ mixedeffect.4 <- lmer(formula = ratio ~ all_issues_count + (1 | organization_nam
 mixedeffect.5 <- lmer(formula = ratio ~ contributors_count + (1 | organization_name), data = contributions)
 mixedeffect.6 <- lmer(formula = ratio ~ top_repo + (1 | organization_name), data = contributions)
 
-content <- stargazer(mixedeffect.1, mixedeffect.2, mixedeffect.3, mixedeffect.4, mixedeffect.5, mixedeffect.6, type="latex", float = F)
-write(content, file = 'hypotheses/h3/influence_on_ratio_mixed_effect_orgs.tex')
-
+if (isTRUE(outputDataToFile)) {
+  content <- stargazer(mixedeffect.1, mixedeffect.2, mixedeffect.3, mixedeffect.4, mixedeffect.5, mixedeffect.6, type="latex", float = F)
+  write(content, file = 'hypotheses/h3/influence_on_ratio_mixed_effect_orgs.tex')
+} else {
+  stargazer(mixedeffect.1, mixedeffect.2, mixedeffect.3, mixedeffect.4, mixedeffect.5, mixedeffect.6, type="text", float = F)
+}
 
 mixedeffect.1 <- lmer(formula = ratio ~ stargazers_count + (1 | organization_name) + (1 | language), data = contributions)
 mixedeffect.2 <- lmer(formula = ratio ~ subscribers_count + (1 | organization_name) + (1 | language), data = contributions)
@@ -187,6 +213,9 @@ mixedeffect.4 <- lmer(formula = ratio ~ all_issues_count + (1 | organization_nam
 mixedeffect.5 <- lmer(formula = ratio ~ contributors_count + (1 | organization_name) + (1 | language), data = contributions)
 mixedeffect.6 <- lmer(formula = ratio ~ top_repo + (1 | organization_name) + (1 | language), data = contributions)
 
-# content <- stargazer(mixedeffect.1, mixedeffect.2, mixedeffect.3, mixedeffect.4, mixedeffect.5, mixedeffect.6, type="text", float = F)
-content <- stargazer(mixedeffect.1, mixedeffect.2, mixedeffect.3, mixedeffect.4, mixedeffect.5, mixedeffect.6, type="latex", float = F)
-write(content, file = 'hypotheses/h3/influence_on_ratio_mixed_effect_orgs_langs.tex')
+if (isTRUE(outputDataToFile)) {
+  content <- stargazer(mixedeffect.1, mixedeffect.2, mixedeffect.3, mixedeffect.4, mixedeffect.5, mixedeffect.6, type="latex", float = F)
+  write(content, file = 'hypotheses/h3/influence_on_ratio_mixed_effect_orgs_langs.tex')
+} else {
+  stargazer(mixedeffect.1, mixedeffect.2, mixedeffect.3, mixedeffect.4, mixedeffect.5, mixedeffect.6, type="text", float = F)
+}

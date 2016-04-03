@@ -1,26 +1,21 @@
 #------------------------------------------------------------------#
 #
-# Linear regression of Participation on Issues and Issues Comments 
-#
-# * run `03_code_contribution_ratios.R` first (once)
+# H2: Linear regression of Participation on Issues and Issues Comments 
 #
 #------------------------------------------------------------------#
 # Author: Philipp Staender (philipp.staender@rwth-aachen.de)       #
 #------------------------------------------------------------------#
 
-# Loading and preparing R
-# reset environment
+## 1. Prepare / clear environment and load modules ####
 ls()
 rm(list=ls(all=TRUE))
 getwd()
-setwd("/Users/philipp/masterthesis/")
-
-# This includes some helper methods (e.g. latex export, pdf export ...)
+setwd("~/mastersthesis/")
 source('r/include.R')
 source('r/include_filtered_organizations.R')  # org will be available as global `organizations`
 source('r/include_subsetvalues.R')
 source('r/include_filtered_repositories.R')
-#source('r/include_linear_regression_plots.R')
+
 repositories$repository.id <- repositories$id
 
 resultFolderName <- 'statistics/issue_participation_results/'
@@ -76,7 +71,6 @@ linear.5 <- glm(formula = forks_count ~ age + issues_share_by_firm_employed_deve
 linear.6 <- glm(formula = subscribers_count ~ age + issues_share_by_firm_employed_developer + all_content_size, data = issues)
 
 stargazer(linear.1, linear.2, linear.3, linear.4, linear.5, linear.6, type="text")
-
 
 linear.1 <- glm(formula = stargazers_count ~ age + all_content_size, data = issues)
 linear.2 <- glm(formula = stargazers_count ~ age + crossfirm_developer_share_on_content, data = issues)

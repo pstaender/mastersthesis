@@ -3,6 +3,8 @@
 # Classification in int + ext contributors
 #
 # This R scripts analyzes all commits of relevant organizations
+# and needs to be executed only once (after that, depending scripts
+# will use calculated csv files from this script)
 #
 #   * removes all commits from authors with invalid emails
 #   * classsifies internal and external developers
@@ -13,19 +15,19 @@
 # Author: Philipp Staender (philipp.staender@rwth-aachen.de)       #
 #------------------------------------------------------------------#
 
-# Loading and preparing R
-# reset environment
+## 1. Prepare / clear environment and load modules ####
 ls()
 rm(list=ls(all=TRUE))
 getwd()
-setwd("/Users/philipp/masterthesis/")
-
-# This includes some helper methods (e.g. latex export, pdf export …)
+setwd("~/mastersthesis/")
+# include basic user defined methods
 source('r/include.R')
+
 source('r/include_filtered_repositories.R')   # repositories will be available as global `repositories`
 source('r/include_filtered_organizations.R')  # org will be available as global `organizations`
 source('r/include_firm_employed_developers_on_github.R')
 
+# takes longer, but needs to be done initially (i.e. once)
 calculateIntExtRatio = T
 
 # write to csv file(s) ?
@@ -38,6 +40,8 @@ if ((exists('outputCSVFileTopExternalContributors', inherits = F) && (typeof(out
 }
 
 # counter (needed to get organization row)
+
+## 2. Write CSV file with contribution ratios
 
 ratios <- read.csv('data/csv/schemas/contributions_ratio.csv')
 
@@ -66,11 +70,6 @@ for (organizationLogin in organizations$login) {
     # mark all firm employed developers defined by regex pattern in `commercial_classification_of_organizations.csv` for each organization
     commits$is_firm_employed <- as.logical(regexpr(organizationsEmailPattern, commits$author.email, ignore.case = T) >= 0)
     # classify manually with whitelist (int_ext_developer_classification.csv)
-#     commits <- cbind(commits, is_firm_employed_manually = mapply(function(email) {
-#       #as.logical(
-#       employedInFirms <- manualClassification[manualClassification$email == tolower(email), 1]
-#       tolower(toString(organization$login)) %in% tolower(strsplit(toString(employedInFirms), "\\|")[[1]])
-#     }, commits$author.email))
     commits <- cbind(commits, is_firm_employed_manually = mapply(isUserFromFirm, commits$author.email, organizationLogin, T))
     commits[commits$is_firm_employed_manually == T, ]$is_firm_employed <- commits[commits$is_firm_employed_manually == T, ]$is_firm_employed_manually
 

@@ -1,22 +1,25 @@
-# Loading and preparing R
+#------------------------------------------------------------------#
+#
+# Analyze rekevant Repositories
+#
+#------------------------------------------------------------------#
+# Author: Philipp Staender (philipp.staender@rwth-aachen.de)       #
+#------------------------------------------------------------------#
 
-# reset environment
+#------------------------------------------------------------------#
+
+## Part 1: Prepare / clear environment and load modules ####
 ls()
 rm(list=ls(all=TRUE))
 getwd()
-setwd("/Users/philipp/masterthesis/")
-
-# only initially
-
-# This includes some helper methods (e.g. latex export, pdf export …)
+setwd("~/mastersthesis/")
+# include basic user defined methods
 source('r/include.R')
 
-# load the generated CSV file with all popular repositories for all 10 programming languges:
+# 1.1 Load the generated CSV file with all popular repositories for all 10 programming languges
 
 repositories <- read.csv(paste0("data/csv/repositories_details.csv"),  header=T)
-
 organizations <- read.csv(paste0("data/csv/organizations.csv"),  header=T)
-
 commercialOrganizations <- read.csv(paste0("data/csv/commercial_classification/commercial_classification_of_organizations.csv"),  header=T)
 
 # merge
@@ -34,8 +37,9 @@ organizations$email_pattern_domain <- gsub("^\\.+", "", organizations$email_patt
 # write to csv file(s) ?
 writeToFile = T
 
+# 1.2 Filter email pattern of each firm and prepare appropiate data formats
+
 organizations$email_pattern_email <- gsub("^[^@]+@(.+?)$", "\\1", organizations$email)
-#, ignore.case = FALSE
 
 # convert true | false to R boolean
 repositories$is_top_repository <- as.logical(repositories$is_top_repository)
@@ -45,19 +49,23 @@ repositories$updated_at = as.Date(as.character(repositories$updated_at), format 
 # calculate age in days
 repositories$age = round((repositories$updated_at - repositories$created_at) / 365, digits = 2)
 
-# summary(repositories)
+stargazer(repositories, type="text")
+
+# 1.3 Select relevant repos
 
 # sorting out repos
 # only with > 1 commits
 # and older > 1 months
 repositories <- subset(repositories, repositories$commits_count > 1)
 repositories <- subset(repositories, repositories$age >= 0.1)
-# set the filename
+# set the filename for logs (simple pattern)
 repositories$log_filename <- paste0('logs_', repositories$organization_name, '_', repositories$repository_name, '.csv')
 
-# select specific organizations
+# select (specific) organizations
 organizations <- subset(organizations, organizations$is_commercial == 'yes')
 # organizations <- subset(organizations, organizations$login %in% c('airbnb'))
+
+# 1.4 Select (top) contributors for manual calssification eventually  
 
 for (organization in organizations$login) {
   repos <- subset(repositories, repositories$organization_name == toString(organization))
